@@ -1,4 +1,3 @@
----Close UI
 local openshit = Instance.new("ScreenGui")
 local mainopen = Instance.new("TextButton")
 local mainopens = Instance.new("UICorner")
@@ -37,85 +36,87 @@ ImageButton_2.Position = UDim2.new(0.0242961459, 0, 0.0168576241, 0)
 ImageButton_2.Size = UDim2.new(0, 49, 0, 48)
 ImageButton_2.Image = "rbxassetid://14491200389"
 ImageButton_2.MouseButton1Click:Connect(function()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.End,false,game)
+    local screenGui = game.CoreGui:FindFirstChild("ScreenGui")
+    if screenGui then
+        screenGui.Enabled = not screenGui.Enabled
+    end
 end)
 
 mainopens.Parent = mainopen
  
- loki.Name = "loki"
- loki.Parent = mainopen
- loki.BackgroundColor3 = Color3.fromRGB(224,224,224)
- loki.BackgroundTransparency = 1.000
- loki.Position = UDim2.new(-0.0529999994, 0, -0.244000003, 0)
- loki.Size = UDim2.new(0, 69, 0, 62)
- loki.Image = "rbxassetid://14491200389"
+loki.Name = "loki"
+loki.Parent = mainopen
+loki.BackgroundColor3 = Color3.fromRGB(224,224,224)
+loki.BackgroundTransparency = 1.000
+loki.Position = UDim2.new(-0.0529999994, 0, -0.244000003, 0)
+loki.Size = UDim2.new(0, 69, 0, 62)
+loki.Image = "rbxassetid://14491200389"
  
- posto.Name = "posto"
- posto.Parent = mainopen
- posto.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
- posto.Color = Color3.fromRGB(224,224,224)
- posto.LineJoinMode = Enum.LineJoinMode.Round
- posto.Thickness = 1
- posto.Transparency = 0
- posto.Enabled = true
- posto.Archivable = true
- 
- local UserInputService = game:GetService("UserInputService")
- local TweenService = game:GetService("TweenService")
- 
- local function MakeDraggable(topbarobject, object)
- local Dragging = nil
- local DragInput = nil
- local DragStart = nil
- local StartPosition = nil
- 
- local function Update(input)
- local Delta = input.Position - DragStart
- local pos = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
- local Tween = TweenService:Create(object, TweenInfo.new(0.15), {
-  Position = pos
- })
- Tween:Play()
- end
- 
- topbarobject.InputBegan:Connect(
-  function(input)
-  if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-  Dragging = true
-  DragStart = input.Position
-  StartPosition = object.Position
- 
-  input.Changed:Connect(
-   function()
-   if input.UserInputState == Enum.UserInputState.End then
-   Dragging = false
-   end
-   end
-  )
-  end
-  end
- )
- 
- topbarobject.InputChanged:Connect(
-  function(input)
-  if
-   input.UserInputType == Enum.UserInputType.MouseMovement or
-  input.UserInputType == Enum.UserInputType.Touch
-  then
-  DragInput = input
-  end
-  end
- )
- 
- UserInputService.InputChanged:Connect(
-  function(input)
-  if input == DragInput and Dragging then
-  Update(input)
-  end
-  end
- )
- end
- 
+posto.Name = "posto"
+posto.Parent = mainopen
+posto.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+posto.Color = Color3.fromRGB(224,224,224)
+posto.LineJoinMode = Enum.LineJoinMode.Round
+posto.Thickness = 1
+posto.Transparency = 0
+posto.Enabled = true
+posto.Archivable = true
+
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+local function MakeDraggable(topbarobject, object)
+    local Dragging = nil
+    local DragInput = nil
+    local DragStart = nil
+    local StartPosition = nil
+
+    local function Update(input)
+        local Delta = input.Position - DragStart
+        local pos = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
+        local Tween = TweenService:Create(object, TweenInfo.new(0.15), {
+            Position = pos
+        })
+        Tween:Play()
+    end
+
+    topbarobject.InputBegan:Connect(
+        function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                Dragging = true
+                DragStart = input.Position
+                StartPosition = object.Position
+
+                input.Changed:Connect(
+                    function()
+                        if input.UserInputState == Enum.UserInputState.End then
+                            Dragging = false
+                        end
+                    end
+                )
+            end
+        end
+    )
+
+    topbarobject.InputChanged:Connect(
+        function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                DragInput = input
+            end
+        end
+    )
+
+    UserInputService.InputChanged:Connect(
+        function(input)
+            if input == DragInput and Dragging then
+                Update(input)
+            end
+        end
+    )
+end
+
+MakeDraggable(buttonframe, openshit)
+
 
 
 
